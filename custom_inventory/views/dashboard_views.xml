@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard: low stock products -->
+    <record id="action_inventory_low_stock" model="ir.actions.act_window">
+        <field name="name">Low Stock Products</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('stock_status', 'in', ['low','critical','out']), ('type', '!=', 'service')]</field>
+        <field name="context">{'search_default_group_stock_status': 1}</field>
+    </record>
+
+    <!-- Dashboard: overstock products -->
+    <record id="action_inventory_overstock" model="ir.actions.act_window">
+        <field name="name">Overstock Products</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('stock_status', '=', 'overstock')]</field>
+    </record>
+
+    <!-- Dashboard: open alerts -->
+    <record id="action_inventory_open_alerts" model="ir.actions.act_window">
+        <field name="name">Open Alerts</field>
+        <field name="res_model">custom.stock.alert</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('state', 'in', ['open', 'in_progress'])]</field>
+        <field name="context">{'search_default_filter_critical': 1}</field>
+    </record>
+
+    <!-- Dashboard: urgent transfers -->
+    <record id="action_inventory_urgent_transfers" model="ir.actions.act_window">
+        <field name="name">Urgent Transfers</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('priority_level', 'in', ['urgent','critical']), ('state', 'not in', ['done','cancel'])]</field>
+    </record>
+</odoo>

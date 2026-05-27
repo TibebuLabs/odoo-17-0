@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Borrow List View -->
+    <record id="view_library_borrow_list" model="ir.ui.view">
+        <field name="name">library.borrow.list</field>
+        <field name="model">library.borrow</field>
+        <field name="arch" type="xml">
+            <tree string="Borrowings">
+                <field name="reference"/>
+                <field name="member_id"/>
+                <field name="book_id"/>
+                <field name="borrow_date"/>
+                <field name="due_date"/>
+                <field name="return_date"/>
+                <field name="days_overdue"/>
+                <field name="fine_amount"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'returned'"
+                    decoration-warning="state == 'borrowed'"
+                    decoration-danger="state == 'overdue'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Borrow Form View -->
+    <record id="view_library_borrow_form" model="ir.ui.view">
+        <field name="name">library.borrow.form</field>
+        <field name="model">library.borrow</field>
+        <field name="arch" type="xml">
+            <form string="Borrowing">
+                <header>
+                    <button name="action_return" string="Return Book"
+                        type="object" class="btn-success"
+                        invisible="state != 'borrowed'"/>
+                    <button name="action_renew" string="Renew"
+                        type="object" class="btn-primary"
+                        invisible="state != 'borrowed'"/>
+                    <button name="action_mark_lost" string="Mark as Lost"
+                        type="object" class="btn-danger"
+                        invisible="state not in ['borrowed','overdue']"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="borrowed,returned,overdue"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="member_id"/>
+                            <field name="book_id"/>
+                            <field name="borrow_date"/>
+                            <field name="due_date"/>
+                            <field name="return_date"/>
+                        </group>
+                        <group>
+                            <field name="fine_per_day"/>
+                            <field name="days_overdue"/>
+                            <field name="fine_amount"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Borrow Action -->
+    <record id="action_library_borrow" model="ir.actions.act_window">
+        <field name="name">Borrowings</field>
+        <field name="res_model">library.borrow</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

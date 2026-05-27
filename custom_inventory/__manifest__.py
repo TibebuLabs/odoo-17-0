@@ -1,0 +1,22 @@
+{
+    'name': 'Custom Inventory',
+    'version': '17.0.1.0.0',
+    'category': 'Inventory',
+    'summary': 'Enhanced inventory with smart alerts, analytics, and warehouse management',
+    'author': 'Tibe',
+    'depends': ['stock', 'mail', 'product'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence_data.xml',
+        'data/cron_data.xml',
+        'views/product_views.xml',
+        'views/warehouse_views.xml',
+        'views/stock_alert_views.xml',
+        'views/stock_move_views.xml',
+        'views/dashboard_views.xml',
+        'views/menu_views.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'license': 'LGPL-3',
+}

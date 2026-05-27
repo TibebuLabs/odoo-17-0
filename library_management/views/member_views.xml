@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Member List View -->
+    <record id="view_library_member_list" model="ir.ui.view">
+        <field name="name">library.member.list</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <tree string="Members">
+                <field name="member_id"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="membership_date"/>
+                <field name="expiry_date"/>
+                <field name="active_borrow_count"/>
+                <field name="total_fine"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'active'"
+                    decoration-danger="state == 'suspended'"
+                    decoration-warning="state == 'expired'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Member Form View -->
+    <record id="view_library_member_form" model="ir.ui.view">
+        <field name="name">library.member.form</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <form string="Member">
+                <header>
+                    <button name="action_activate" string="Activate"
+                        type="object" class="btn-success"
+                        invisible="state == 'active'"/>
+                    <button name="action_suspend" string="Suspend"
+                        type="object" class="btn-danger"
+                        invisible="state == 'suspended'"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="active,expired,suspended"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_borrows" type="object"
+                            class="oe_stat_button" icon="fa-book">
+                            <field name="borrow_count" widget="statinfo" string="Borrows"/>
+                        </button>
+                    </div>
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Full Name"/></h1>
+                        <h3><field name="member_id" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="membership_date"/>
+                            <field name="expiry_date"/>
+                            <field name="max_books"/>
+                            <field name="active_borrow_count"/>
+                            <field name="total_fine"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Borrow History">
+                            <field name="borrow_ids">
+                                <tree>
+                                    <field name="reference"/>
+                                    <field name="book_id"/>
+                                    <field name="borrow_date"/>
+                                    <field name="due_date"/>
+                                    <field name="return_date"/>
+                                    <field name="fine_amount"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Member Action -->
+    <record id="action_library_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

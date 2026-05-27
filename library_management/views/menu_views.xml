@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_library_root"
+        name="Library"
+        sequence="10"/>
+
+    <!-- Books Menu -->
+    <menuitem id="menu_library_books"
+        name="Books"
+        parent="menu_library_root"
+        sequence="10"/>
+
+    <menuitem id="menu_library_book_list"
+        name="All Books"
+        parent="menu_library_books"
+        action="action_library_book"
+        sequence="10"/>
+
+    <menuitem id="menu_library_book_categories"
+        name="Categories"
+        parent="menu_library_books"
+        action="action_library_book_category"
+        sequence="20"/>
+
+    <!-- Members Menu -->
+    <menuitem id="menu_library_members"
+        name="Members"
+        parent="menu_library_root"
+        sequence="20"/>
+
+    <menuitem id="menu_library_member_list"
+        name="All Members"
+        parent="menu_library_members"
+        action="action_library_member"
+        sequence="10"/>
+
+    <!-- Borrowings Menu -->
+    <menuitem id="menu_library_borrows"
+        name="Borrowings"
+        parent="menu_library_root"
+        sequence="30"/>
+
+    <menuitem id="menu_library_borrow_list"
+        name="All Borrowings"
+        parent="menu_library_borrows"
+        action="action_library_borrow"
+        sequence="10"/>
+</odoo>

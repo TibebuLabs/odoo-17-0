@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit stock.picking form -->
+    <record id="view_stock_picking_form_custom_inv" model="ir.ui.view">
+        <field name="name">stock.picking.form.custom.inventory</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate']" position="before">
+                <button name="action_mark_quality_checked" string="✓ Quality Check"
+                    type="object" class="btn-secondary"
+                    invisible="quality_check_done or state == 'done'"/>
+            </xpath>
+            <xpath expr="//page[@name='extra']" position="before">
+                <page string="Smart Info" name="custom_inv_info">
+                    <group>
+                        <group string="Priority &amp; Schedule">
+                            <field name="priority_level"/>
+                            <field name="expected_completion"/>
+                            <field name="total_product_count"/>
+                            <field name="total_qty"/>
+                        </group>
+                        <group string="Quality Check">
+                            <field name="quality_check_done"/>
+                            <field name="quality_check_by"
+                                invisible="not quality_check_done"/>
+                            <field name="quality_check_date"
+                                invisible="not quality_check_done"/>
+                        </group>
+                    </group>
+                    <field name="custom_notes" placeholder="Internal notes..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit stock.picking tree -->
+    <record id="view_stock_picking_tree_custom_inv" model="ir.ui.view">
+        <field name="name">stock.picking.tree.custom.inventory</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="priority_level" widget="badge" optional="show"
+                    decoration-success="priority_level == 'normal'"
+                    decoration-warning="priority_level == 'urgent'"
+                    decoration-danger="priority_level == 'critical'"/>
+                <field name="quality_check_done" optional="show"/>
+                <field name="total_qty" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

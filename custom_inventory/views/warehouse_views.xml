@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit warehouse form -->
+    <record id="view_warehouse_form_custom_inv" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.custom.inventory</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Smart Warehouse Info">
+                    <group>
+                        <field name="manager_id"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                    </group>
+                    <group>
+                        <field name="capacity"/>
+                        <field name="current_utilization" widget="progressbar"/>
+                    </group>
+                </group>
+                <field name="notes" placeholder="Warehouse notes..."/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit stock.location form -->
+    <record id="view_stock_location_form_custom_inv" model="ir.ui.view">
+        <field name="name">stock.location.form.custom.inventory</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Smart Location Info">
+                    <group>
+                        <field name="location_type_custom"/>
+                        <field name="max_weight"/>
+                        <field name="barcode_label"/>
+                        <field name="temperature_controlled"/>
+                    </group>
+                    <group>
+                        <field name="responsible_id"/>
+                        <field name="product_count"/>
+                    </group>
+                </group>
+                <field name="notes" placeholder="Location notes..."/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

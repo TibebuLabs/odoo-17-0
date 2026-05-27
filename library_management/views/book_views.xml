@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Book List View -->
+    <record id="view_library_book_list" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree string="Books">
+                <field name="name"/>
+                <field name="isbn"/>
+                <field name="author"/>
+                <field name="publisher"/>
+                <field name="category_id"/>
+                <field name="total_copies"/>
+                <field name="available_copies"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'available'"
+                    decoration-danger="state == 'borrowed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Book Form View -->
+    <record id="view_library_book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <header>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="available,borrowed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_borrows" type="object"
+                            class="oe_stat_button" icon="fa-book">
+                            <field name="borrow_count" widget="statinfo" string="Borrows"/>
+                        </button>
+                    </div>
+                    <field name="cover_image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Book Title"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="isbn"/>
+                            <field name="author"/>
+                            <field name="publisher"/>
+                            <field name="category_id"/>
+                            <field name="publish_date"/>
+                        </group>
+                        <group>
+                            <field name="total_copies"/>
+                            <field name="available_copies"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Book description..."/>
+                        </page>
+                        <page string="Borrow History">
+                            <field name="borrow_ids">
+                                <tree>
+                                    <field name="reference"/>
+                                    <field name="member_id"/>
+                                    <field name="borrow_date"/>
+                                    <field name="due_date"/>
+                                    <field name="return_date"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Book Category List View -->
+    <record id="view_library_book_category_list" model="ir.ui.view">
+        <field name="name">library.book.category.list</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <tree string="Book Categories">
+                <field name="name"/>
+                <field name="book_count"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Book Category Form View -->
+    <record id="view_library_book_category_form" model="ir.ui.view">
+        <field name="name">library.book.category.form</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <form string="Book Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Category Name"/></h1>
+                    </div>
+                    <field name="description" placeholder="Description..."/>
+                    <field name="book_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="author"/>
+                            <field name="available_copies"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Book Action -->
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Book Category Action -->
+    <record id="action_library_book_category" model="ir.actions.act_window">
+        <field name="name">Book Categories</field>
+        <field name="res_model">library.book.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

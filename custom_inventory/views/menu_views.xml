@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Inventory sub-menu under Inventory app -->
+    <menuitem id="menu_custom_inventory_root"
+        name="Smart Inventory"
+        parent="stock.menu_stock_root"
+        sequence="99"/>
+
+    <!-- Dashboard shortcuts -->
+    <menuitem id="menu_custom_inv_dashboard"
+        name="Dashboard"
+        parent="menu_custom_inventory_root"
+        sequence="10"/>
+
+    <menuitem id="menu_custom_inv_low_stock"
+        name="Low Stock"
+        parent="menu_custom_inv_dashboard"
+        action="action_inventory_low_stock"
+        sequence="10"/>
+
+    <menuitem id="menu_custom_inv_overstock"
+        name="Overstock"
+        parent="menu_custom_inv_dashboard"
+        action="action_inventory_overstock"
+        sequence="20"/>
+
+    <menuitem id="menu_custom_inv_urgent"
+        name="Urgent Transfers"
+        parent="menu_custom_inv_dashboard"
+        action="action_inventory_urgent_transfers"
+        sequence="30"/>
+
+    <!-- Alerts -->
+    <menuitem id="menu_custom_inv_alerts"
+        name="Stock Alerts"
+        parent="menu_custom_inventory_root"
+        action="action_custom_stock_alert"
+        sequence="20"/>
+
+    <!-- Products -->
+    <menuitem id="menu_custom_inv_products"
+        name="Products &amp; Stock"
+        parent="menu_custom_inventory_root"
+        action="action_custom_inventory_products"
+        sequence="30"/>
+</odoo>

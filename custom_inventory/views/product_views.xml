@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit product.template form to add inventory fields -->
+    <record id="view_product_template_form_custom_inv" model="ir.ui.view">
+        <field name="name">product.template.form.custom.inventory</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add smart button for alerts -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_alerts" type="object"
+                    class="oe_stat_button" icon="fa-bell"
+                    invisible="alert_count == 0">
+                    <field name="alert_count" widget="statinfo" string="Alerts"/>
+                </button>
+            </xpath>
+            <!-- Add custom inventory tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Inventory Settings" name="custom_inventory">
+                    <group string="Stock Thresholds">
+                        <group>
+                            <field name="min_stock_qty"/>
+                            <field name="max_stock_qty"/>
+                            <field name="reorder_qty"/>
+                            <field name="lead_time_days"/>
+                        </group>
+                        <group>
+                            <field name="stock_status" widget="badge"
+                                decoration-success="stock_status == 'ok'"
+                                decoration-warning="stock_status in ['low','overstock']"
+                                decoration-danger="stock_status in ['critical','out']"/>
+                            <field name="avg_daily_consumption"/>
+                            <field name="days_of_stock"/>
+                            <field name="last_restock_date"/>
+                        </group>
+                    </group>
+                    <group string="Storage Info">
+                        <field name="supplier_ref"/>
+                        <field name="storage_location"/>
+                    </group>
+                    <field name="notes" placeholder="Internal notes..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit product list view to show stock status -->
+    <record id="view_product_template_tree_custom_inv" model="ir.ui.view">
+        <field name="name">product.template.tree.custom.inventory</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-danger">stock_status in ['critical','out']</attribute>
+                <attribute name="decoration-warning">stock_status == 'low'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="stock_status" widget="badge" optional="show"
+                    decoration-success="stock_status == 'ok'"
+                    decoration-warning="stock_status in ['low','overstock']"
+                    decoration-danger="stock_status in ['critical','out']"/>
+                <field name="days_of_stock" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Standalone product inventory list action -->
+    <record id="action_custom_inventory_products" model="ir.actions.act_window">
+        <field name="name">Products &amp; Stock</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('type', '!=', 'service')]</field>
+        <field name="context">{'search_default_filter_to_reorder': 1}</field>
+    </record>
+
+    <!-- Search filter for low stock -->
+    <record id="view_product_template_search_custom_inv" model="ir.ui.view">
+        <field name="name">product.template.search.custom.inventory</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Low Stock" name="filter_low_stock"
+                    domain="[('stock_status', 'in', ['low','critical'])]"/>
+                <filter string="Out of Stock" name="filter_out_stock"
+                    domain="[('stock_status', '=', 'out')]"/>
+                <filter string="Overstock" name="filter_overstock"
+                    domain="[('stock_status', '=', 'overstock')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Stock Status" name="group_stock_status"
+                        context="{'group_by': 'stock_status'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

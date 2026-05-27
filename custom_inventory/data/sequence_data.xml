@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_custom_stock_alert" model="ir.sequence">
+            <field name="name">Stock Alert</field>
+            <field name="code">custom.stock.alert</field>
+            <field name="prefix">ALT/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>
